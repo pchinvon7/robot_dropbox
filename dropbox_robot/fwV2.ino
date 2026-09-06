@@ -21,13 +21,22 @@ void fw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
 
     unsigned long startTime = millis();
     unsigned long last_pid_time = startTime;
+    if(lastDegree == degree && fb == 0)
+        {
+            delay(200);
+        }
     lastDegree = degree;
-
+    fb = 1;
     while (millis() - startTime < distance)
     {
         imu.update();
 
-        if(millis() - startTime > distance - 100 && distance >= 400)
+        // if(millis() - startTime < 100 && distance >= 400 && spl >= 20 && spr >= 20)
+        //     {
+        //         spl = 20;
+        //         spr = 20;
+        //     }
+        if(millis() - startTime > distance - 100 && distance >= 400 && spl >= 20 && spr >= 20)
             {
                 spl = 20;
                 spr = 20;
@@ -98,13 +107,22 @@ void bw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
 
     unsigned long startTime = millis();
     unsigned long last_pid_time = startTime;
+    if(lastDegree == degree && fb == 1)
+        {
+            delay(200);
+        }
     lastDegree = degree;
-
+    fb = 0;
     while (millis() - startTime < distance)
     {
         imu.update();
 
-        if(millis() - startTime > distance - 100 && distance >= 400)
+        // if(millis() - startTime < 100 && distance >= 400 && spl >= 20 && spr >= 20)
+        //     {
+        //         spl = 20;
+        //         spr = 20;
+        //     }
+        if(millis() - startTime > distance - 100 && distance >= 400 && spl >= 20 && spr >= 20)
             {
                 spl = 20;
                 spr = 20;

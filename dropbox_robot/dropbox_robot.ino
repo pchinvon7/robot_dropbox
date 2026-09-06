@@ -6,6 +6,7 @@ BNO055 imu;
 ArrayPico2 robot;
 
 int lastDegree = 0;
+int fb;
 
 void setup() {
   
@@ -18,7 +19,9 @@ void setup() {
     
 
 
-    bw(50, 50, 0.4, 500, 10, 0);
+    fw(50, 50, 0.4, 500, 10, 0);
+    fw(50, 50, 0.4, 500, 10, -90);
+    bw(50, 50, 0.4, 500, 10, -90);
 
 
 
