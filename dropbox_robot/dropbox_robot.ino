@@ -14,34 +14,13 @@ void setup() {
     setup_robot();
 
     imu.resetAngles();
-
-
+    setServo();
     
-
-
-    fw(50, 50, 0.4, 500, 10, 0);
-    fw(50, 50, 0.4, 500, 10, -90);
-    bw(50, 50, 0.4, 500, 10, -90);
-
-
-
-
-
-
-
-
-
-
     
-
-    
-
-    
-
-
 }
 
 void loop() {
-  Serial.println(robot.adcRead(9));
+  imu.update();
+  Serial.println(imu.yaw());
   delay(50);
 }

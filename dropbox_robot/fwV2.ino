@@ -17,38 +17,46 @@ void fw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
 
     float kpG = kp;
     float kiG = 0;
-    float kdG = 0;
+    float kdG = 0.05;
+
+    const int splT = spl;
+    const int sprT = spr;
 
     unsigned long startTime = millis();
     unsigned long last_pid_time = startTime;
-    if(lastDegree == degree && fb == 0)
-        {
-            delay(200);
-        }
+    // if(lastDegree == degree && fb == 0)
+    //     {
+    //         delay(200);
+    //     }
     lastDegree = degree;
     fb = 1;
     while (millis() - startTime < distance)
     {
         imu.update();
 
-        // if(millis() - startTime < 100 && distance >= 400 && spl >= 20 && spr >= 20)
+        // if(millis() - startTime < 200 && distance >= 400 && spl >= 20 && spr >= 20)
         //     {
         //         spl = 20;
         //         spr = 20;
         //     }
-        if(millis() - startTime > distance - 100 && distance >= 400 && spl >= 20 && spr >= 20)
+        // if(millis() - startTime > 200 && distance >= 400)
+        //     {
+        //         spl = splT;
+        //         spr = sprT;
+        //     }
+        if(millis() - startTime > distance - 200 && distance >= 400 && spl >= 20 && spr >= 20 && offset > 0)
             {
                 spl = 20;
                 spr = 20;
             }
-        if(robot.adcRead(1) < 500)
-            {
-                do{robot.Motor(spl + 20, spr);imu.update();}while(robot.adcRead(1) < 500);
-            }
-        else if(robot.adcRead(8) < 500)
-            {
-                do{robot.Motor(spl, spr + 20);imu.update();}while(robot.adcRead(8) < 500);
-            }
+        // if(robot.adcRead(1) < robot.adcMD(1))
+        //     {
+        //         do{robot.Motor(spl + 20, spr);imu.update();}while(robot.adcRead(1) < robot.adcMD(1));
+        //     }
+        // else if(robot.adcRead(8) < robot.adcMD(8))
+        //     {
+        //         do{robot.Motor(spl, spr + 20);imu.update();}while(robot.adcRead(8) < robot.adcMD(8));
+        //     }
         unsigned long now = millis();
 
         float dt = (now - last_pid_time) / 1000.0;
@@ -103,37 +111,45 @@ void bw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
 
     float kpG = kp;
     float kiG = 0;
-    float kdG = 0;
+    float kdG = 0.05;
+
+    const int splT = spl;
+    const int sprT = spr;
 
     unsigned long startTime = millis();
     unsigned long last_pid_time = startTime;
-    if(lastDegree == degree && fb == 1)
-        {
-            delay(200);
-        }
+    // if(lastDegree == degree && fb == 1)
+    //     {
+    //         delay(200);
+    //     }
     lastDegree = degree;
     fb = 0;
     while (millis() - startTime < distance)
     {
         imu.update();
 
-        // if(millis() - startTime < 100 && distance >= 400 && spl >= 20 && spr >= 20)
+        // if(millis() - startTime < 200 && distance >= 400 && spl >= 20 && spr >= 20)
         //     {
         //         spl = 20;
         //         spr = 20;
         //     }
-        if(millis() - startTime > distance - 100 && distance >= 400 && spl >= 20 && spr >= 20)
+        // if(millis() - startTime > 200 && distance >= 400)
+        //     {
+        //         spl = splT;
+        //         spr = sprT;
+        //     }
+        if(millis() - startTime > distance - 150 && distance >= 400 && spl >= 20 && spr >= 20 && offset > 0)
             {
                 spl = 20;
                 spr = 20;
             }
-        if(robot.adcRead(1) < 500)
+        if(robot.adcRead(0) < robot.adcMD(0))
             {
-                do{robot.Motor(-spl - 20, -spr);imu.update();}while(robot.adcRead(0) < 500);
+                do{robot.Motor(-spl - 20, -spr);imu.update();}while(robot.adcRead(0) < robot.adcMD(0));
             }
-        else if(robot.adcRead(8) < 500)
+        else if(robot.adcRead(9) < robot.adcMD(9))
             {
-                do{robot.Motor(-spl, -spr - 20);imu.update();}while(robot.adcRead(9) < 500);
+                do{robot.Motor(-spl, -spr - 20);imu.update();}while(robot.adcRead(9) < robot.adcMD(9));
             }
         
         unsigned long now = millis();
@@ -179,5 +195,5 @@ void bw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
 
     robot.Motor(-spl, -spr);
     delay(offset);
-    robot.Motor(1, 1);
+    robot.Motor(0, 0);
 }
