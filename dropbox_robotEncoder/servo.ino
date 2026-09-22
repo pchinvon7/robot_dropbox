@@ -1,10 +1,17 @@
 void setServo()
   {
-    robot.ServoWrite(16, 160);
+    robot.ServoWrite(18, setServoF);
+    robot.ServoWrite(16, setServoB);
   }
-void drop()
+void dropF()
   {
-    robot.ServoWrite(16, 160 - 150);
+    robot.ServoWrite(18, setServoF - 150);
     delay(300);
-    robot.ServoWrite(16, 160);
+    robot.ServoWrite(18, setServoF);
+  }
+void dropB()
+  {
+    robot.ServoWrite(16, setServoB - 150);
+    delay(300);
+    robot.ServoWrite(16, setServoB);
   }

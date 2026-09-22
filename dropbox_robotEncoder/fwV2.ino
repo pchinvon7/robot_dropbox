@@ -11,7 +11,7 @@ float normalizeAngle(float angle)
 
 // distance ตอนนี้มีหน่วยเป็น "encoder tick" แทนที่จะเป็น ms
 // decelZone = ระยะ (tick) ก่อนถึงเป้าหมายที่จะเริ่มลดความเร็ว ต้องจูนใหม่เอง
-void fw(int spl, int spr, float kp, unsigned long distance, int offset, int degree)
+void fw(int spl, int spr, float kp, float distance, int offset, int degree)
 {
     float yaw_offset = degree;
 
@@ -20,7 +20,7 @@ void fw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
 
     float kpG = kp;
     float kiG = 0;
-    float kdG = 0.05;
+    float kdG = 0.1;
 
     const int splT = spl;
     const int sprT = spr;
@@ -35,6 +35,8 @@ void fw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
     fb = 1;
 
     long currentPos = 0;
+
+    distance = (distance / (3.1416 * 4.3)) * 200;
 
     while (currentPos < (long)distance)
     {
@@ -100,7 +102,7 @@ void bw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
 
     float kpG = kp;
     float kiG = 0;
-    float kdG = 0.05;
+    float kdG = 0.1;
 
     const int splT = spl;
     const int sprT = spr;
@@ -115,6 +117,8 @@ void bw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
     fb = 0;
 
     long currentPos = 0;
+
+    distance = (distance / (3.1416 * 4.3)) * 200;
 
     while (currentPos < (long)distance)
     {
