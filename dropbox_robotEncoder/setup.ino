@@ -19,5 +19,7 @@ void setup_robot() {
 
     Serial.println("BNO055 Ready");
 
+    setServo();
+
   robot.run();    // แสดง Welcome + เมนู + รอคำสั่งrobot.ServoAttach(16);   // ติดตั้ง Servo บนพิน 16
 }

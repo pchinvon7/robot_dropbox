@@ -25,7 +25,7 @@ void fw(int spl, int spr, float kp, float distance, int offset, int degree)
     const int splT = spl;
     const int sprT = spr;
 
-    const long decelZone = 100; // TODO: จูนค่านี้เป็น tick ให้เหมาะกับ encoder ของคุณ
+    const long decelZone = 150; // TODO: จูนค่านี้เป็น tick ให้เหมาะกับ encoder ของคุณ
 
     encoder.resetEncoders();
 
@@ -104,10 +104,12 @@ void bw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
     float kiG = 0;
     float kdG = 0.1;
 
+    float Oldkp = kp;
+
     const int splT = spl;
     const int sprT = spr;
 
-    const long decelZone = 80; // TODO: จูนค่านี้เป็น tick ให้เหมาะกับ encoder ของคุณ
+    const long decelZone = 150; // TODO: จูนค่านี้เป็น tick ให้เหมาะกับ encoder ของคุณ
 
     encoder.resetEncoders();
 
@@ -132,22 +134,22 @@ void bw(int spl, int spr, float kp, unsigned long distance, int offset, int degr
             spr = 20;
         }
 
-        if (robot.adcRead(0) < robot.adcMD(0))
-        {
-            do
-            {
-                robot.Motor(-spl - 20, -spr);
-                imu.update();
-            } while (robot.adcRead(0) < robot.adcMD(0));
-        }
-        else if (robot.adcRead(9) < robot.adcMD(9))
-        {
-            do
-            {
-                robot.Motor(-spl, -spr - 20);
-                imu.update();
-            } while (robot.adcRead(9) < robot.adcMD(9));
-        }
+        // if (robot.adcRead(0) < robot.adcMD(0))
+        // {
+        //     do
+        //     {
+        //         robot.Motor(-spl - 20, -spr);
+        //         imu.update();
+        //     } while (robot.adcRead(0) < robot.adcMD(0));
+        // }
+        // else if (robot.adcRead(9) < robot.adcMD(9))
+        // {
+        //     do
+        //     {
+        //         robot.Motor(-spl, -spr - 20);
+        //         imu.update();
+        //     } while (robot.adcRead(9) < robot.adcMD(9));
+        // }
 
         unsigned long now = millis();
         float dt = (now - last_pid_time) / 1000.0;
